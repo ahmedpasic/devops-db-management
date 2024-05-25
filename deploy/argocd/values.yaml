@@ -1,0 +1,48 @@
+configs:
+  repositories:
+     devops-db-management:
+       url: https://github.com/ahmedpasic/devops-db-management
+       name: devops-db-management
+       type: git
+
+extraObjects:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: argocd
+    spec:
+      type: NodePort
+      selector:
+        app.kubernetes.io/name: argocd-server
+      ports:
+        - protocol: TCP
+          port: 8080
+          targetPort: 8080
+          nodePort: 30001
+
+  - apiVersion: argoproj.io/v1alpha1
+    kind: Application
+    metadata:
+      name: postgresql
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/ahmedpasic/devops-db-management'
+        path: charts/postgresql
+        targetRevision: HEAD
+        helm:
+          valueFiles:
+            - ../../deploy/postgresql/values.yaml
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: pg
+      syncPolicy:
+        managedNamespaceMetadata:
+          labels:
+            name: pg
+            app.kubernetes.io/name: pg
+            app.kubernetes.io/instance: pg
+            app.kubernetes.io/project: postgresql
+        syncOptions:
+          - CreateNamespace=true
