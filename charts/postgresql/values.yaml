@@ -68,7 +68,21 @@ fullnameOverride: ""
 clusterDomain: cluster.local
 ## @param extraDeploy Array of extra objects to deploy with the release (evaluated as a template)
 ##
-extraDeploy: []
+extraDeploy:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: postgresql-np
+    spec:
+      type: NodePort
+      selector:
+        app.kubernetes.io/name: postgresql
+      ports:
+        - protocol: TCP
+          port: 5432
+          targetPort: 5432
+          nodePort: 30000
+
 ## @param commonLabels Add labels to all the deployed resources
 ##
 commonLabels: {}
