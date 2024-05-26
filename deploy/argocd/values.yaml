@@ -73,3 +73,30 @@ extraObjects:
             app.kubernetes.io/project: postgresql
         syncOptions:
           - CreateNamespace=true
+
+  - apiVersion: argoproj.io/v1alpha1
+    kind: Application
+    metadata:
+      name: prometheus
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/ahmedpasic/devops-db-management'
+        path: charts/prometheus
+        targetRevision: HEAD
+        helm:
+          valueFiles:
+            - ../../deploy/prometheus/values.yaml
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: grafana
+      syncPolicy:
+        managedNamespaceMetadata:
+          labels:
+            name: grafana
+            app.kubernetes.io/name: prometheus
+            app.kubernetes.io/instance: prometheus
+            app.kubernetes.io/project: postgresql
+        syncOptions:
+          - CreateNamespace=true
