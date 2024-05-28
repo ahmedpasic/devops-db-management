@@ -1,0 +1,4 @@
+dashboards:
+  default:
+    pg-dashboard:
+      file: dashboards/pg_1.json
