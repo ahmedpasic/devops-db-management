@@ -12,3 +12,9 @@ extraDeploy:
           port: 5432
           targetPort: 5432
           nodePort: 30000
+
+
+primary:
+  configuration: |
+    shared_preload_libraries = 'pg_stat_statements'
+    pg_stat_statements.track = all
