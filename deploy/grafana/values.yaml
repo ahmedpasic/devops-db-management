@@ -1,4 +1,36 @@
-dashboards:
-  default:
-    pg-dashboard:
-      file: dashboards/pg_1.json
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: InfluxDB
+        type: influxdb
+        uid: influxdb
+        database: ${INFLUXDB_CONNECT_DBNAME}
+        url: http://${INFLUXDB_CONNECT_ADDRESS}:${INFLUXDB_CONNECT_PORT}
+        user: ${INFLUXDB_CONNECT_DBUSER}
+        secureJsonData:
+          password: ${INFLUXDB_CONNECT_PASSWORD}
+        jsonData:
+          httpMode: GET
+
+envValueFrom:
+  INFLUXDB_CONNECT_DBNAME:
+    secretKeyRef:
+      name: influxdb-auth
+      key: influxdb-db
+  INFLUXDB_CONNECT_DBUSER:
+    secretKeyRef:
+      name: influxdb-auth
+      key: influxdb-user
+  INFLUXDB_CONNECT_PASSWORD:
+    secretKeyRef:
+      name: influxdb-auth
+      key: influxdb-password
+  INFLUXDB_CONNECT_ADDRESS:
+    secretKeyRef:
+      name: pgwatch2-secret
+      key: pgwatch2-ihost
+  INFLUXDB_CONNECT_PORT:
+    secretKeyRef:
+      name: pgwatch2-secret
+      key: pgwatch2-iport
