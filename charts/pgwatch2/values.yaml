@@ -1,0 +1,3 @@
+# Currently no template is present for the parent chart. Therefore, there is no need for any default values.
+# Default values.yaml-file is optional and could be removed here, but to keep ourdeploy-scripts consistent,
+# which all reference the default values.yaml, this file is kept here.

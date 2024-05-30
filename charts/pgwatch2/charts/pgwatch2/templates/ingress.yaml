@@ -1,0 +1,42 @@
+{{- if .Values.ingress.enabled -}}
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+apiVersion: networking.k8s.io/v1
+{{- else }}
+apiVersion: networking.k8s.io/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ include "pgwatch2.fullname" . }}
+  labels:
+    {{- include "pgwatch2.labels" . | nindent 4 }}
+  annotations:
+{{ toYaml .Values.ingress.annotations | indent 4 }}
+spec:
+{{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+      - {{ .Values.ingress.hostname | quote }}
+      secretName: {{ .Values.ingress.secretName }}
+{{- end }}
+{{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+{{- end }}
+  rules:
+  - host: {{ .Values.ingress.hostname }}
+    http:
+      paths:
+      - path: {{ .Values.ingress.path }}
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+        pathType: Prefix
+{{- end }}
+        backend:
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+          service:
+            name: {{ include "pgwatch2.fullname" . }}
+            port:
+              number: 8081
+{{- else }}
+          serviceName: {{ include "pgwatch2.fullname" . }}
+          servicePort: 8081
+{{- end }}
+{{- end -}}

@@ -1,0 +1,88 @@
+influxdb:
+  setDefaultUser:
+    enabled: true
+    user:
+      existingSecret: influxdb-auth
+  env:
+    - name: INFLUXDB_DB
+      valueFrom:
+        secretKeyRef:
+          name: influxdb-auth
+          key: influxdb-db
+  image:
+    pullPolicy: IfNotPresent
+  config:
+    reporting_disabled: true
+
+  securityContext:
+    runAsUser: 999
+    runAsGroup: 999
+    fsGroup: 999
+
+
+pgwatch2:
+  envValueFrom:
+    PW2_ADHOC_CONN_STR:
+      secretKeyRef:
+        name: pgwatch2-secret
+        key: pgwatch2-adhoc-str
+    PW2_ADHOC_CONFIG:
+      secretKeyRef:
+        name: pgwatch2-secret
+        key: pgwatch2-adhoc-config
+    PW2_IHOST:
+      secretKeyRef:
+        name: pgwatch2-secret
+        key: pgwatch2-ihost
+    PW2_IPORT:
+      secretKeyRef:
+        name: pgwatch2-secret
+        key: pgwatch2-iport
+    PW2_ISSL:
+      secretKeyRef:
+        name: pgwatch2-secret
+        key: pgwatch2-issl
+    PW2_VERBOSE:
+      secretKeyRef:
+        name: pgwatch2-secret
+        key: pgwatch2-verbose
+    PW2_IDATABASE:
+      secretKeyRef:
+        name: influxdb-auth
+        key: influxdb-db
+    PW2_IUSER:
+      secretKeyRef:
+        name: influxdb-auth
+        key: influxdb-user
+    PW2_IPASSWORD:
+      secretKeyRef:
+        name: influxdb-auth
+        key: influxdb-password
+    PW2_ADHOC_NAME:
+      secretKeyRef:
+        name: influxdb-auth
+        key: influxdb-dbname
+
+  ingress:
+    enabled: false
+
+  image:
+    repository: cybertec/pgwatch2-daemon
+    tag: 1.11.0
+    pullPolicy: IfNotPresent
+
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 10001
+
+  pgwatch2:
+    testDBEnabled: false
+    persistentVolumes:
+      config:
+        enabled: false
+      database:
+        enabled: false
+      influx:
+        enabled: false
+      grafana:
+        enabled: false

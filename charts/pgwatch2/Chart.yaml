@@ -1,0 +1,14 @@
+apiVersion: v1
+dependencies:
+#    we are using upstream influxdb helm chart
+  - name: influxdb
+    repository: https://github.com/influxdata/helm-charts
+    version: 0.1.0
+#    pgwatch is created/maintained by us as a local subchart
+description: A Helm chart for pgwatch2 monitoring tools
+keywords:
+  - observabiliy
+  - monitoring
+  - kubernetes
+name: pgwatch2
+version: 0.1.0

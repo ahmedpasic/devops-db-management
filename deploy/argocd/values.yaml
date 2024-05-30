@@ -77,26 +77,26 @@ extraObjects:
   - apiVersion: argoproj.io/v1alpha1
     kind: Application
     metadata:
-      name: prometheus
+      name: pgwatch2
       namespace: argocd
     spec:
       project: default
       source:
         repoURL: 'https://github.com/ahmedpasic/devops-db-management'
-        path: charts/prometheus
+        path: charts/pgwatch2
         targetRevision: HEAD
         helm:
           valueFiles:
-            - ../../deploy/prometheus/values.yaml
+            - ../../deploy/pgwatch2/values.yaml
       destination:
         server: 'https://kubernetes.default.svc'
         namespace: grafana
       syncPolicy:
         managedNamespaceMetadata:
           labels:
-            name: grafana
-            app.kubernetes.io/name: prometheus
-            app.kubernetes.io/instance: prometheus
+            name: pgwatch2
+            app.kubernetes.io/name: pgwatch2
+            app.kubernetes.io/instance: pgwatch2
             app.kubernetes.io/project: postgresql
         syncOptions:
           - CreateNamespace=true
