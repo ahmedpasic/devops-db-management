@@ -1,0 +1,21 @@
+resourceName: grafana-dashboards
+
+## Configmap annotations
+annotations: {}
+
+labels:
+  grafana_dashboard: "1"
+
+dashboards:
+- name: db-healthcheck
+  enabled: true
+  folder: "pgwatch"
+- name: db-overview
+  enabled: true
+  folder: "pgwatch"
+- name: global-db-overview
+  enabled: true
+  folder: "pgwatch"
+- name: stat-statements-overview
+  enabled: true
+  folder: "pgwatch"

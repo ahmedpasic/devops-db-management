@@ -1,0 +1,7 @@
+apiVersion: v2
+appVersion: 1.0.0
+maintainers:
+- email: ahmedpasic24@gmail.com
+  name: ahmedpasic
+name: grafana-dashboards
+version: 1.0.0
