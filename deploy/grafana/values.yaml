@@ -34,3 +34,21 @@ envValueFrom:
     secretKeyRef:
       name: pgwatch2-secret
       key: pgwatch2-iport
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: true
+      editable: false
+      options:
+        path: /var/lib/grafana/dashboards/default
+
+dashboards:
+  default:
+    db-overview:
+      file: dashboards/db-overview.json
