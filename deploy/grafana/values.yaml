@@ -39,16 +39,16 @@ dashboardProviders:
   dashboardproviders.yaml:
     apiVersion: 1
     providers:
-    - name: 'default'
-      orgId: 1
-      folder: ''
-      type: file
-      disableDeletion: true
-      editable: false
-      options:
-        path: /var/lib/grafana/dashboards/default
+      - name: 'PGWatch provider'
+        orgId: 1
+        folder: 'PGWatch'
+        type: file
+        updateIntervalSeconds: 10
+        allowUiUpdates: true
+        options:
+          path: /tmp/dashboards/pgwatch
 
-dashboards:
-  default:
-    db-overview:
-      file: ../../deploy/grafana/dashboards/db-overview.json
+sidecar:
+  dashboards:
+    enabled: true
+    SCProvider: false
