@@ -51,4 +51,4 @@ dashboardProviders:
 dashboards:
   default:
     db-overview:
-      file: dashboards/db-overview.json
+      file: ../../deploy/grafana/dashboards/db-overview.json
