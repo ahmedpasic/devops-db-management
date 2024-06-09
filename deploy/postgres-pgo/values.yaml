@@ -1,0 +1,6 @@
+monitoring: true
+
+
+# imageExporter is the image name for the exporter used as a part of monitoring.
+# This defaults to the value below.
+imageExporter: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-0.15.0-6
