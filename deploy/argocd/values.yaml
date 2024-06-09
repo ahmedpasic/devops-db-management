@@ -181,3 +181,30 @@ extraObjects:
             app.kubernetes.io/project: pgo
         syncOptions:
           - CreateNamespace=true
+
+  - apiVersion: argoproj.io/v1alpha1
+    kind: Application
+    metadata:
+      name: crunchy-monitoring
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/ahmedpasic/devops-db-management'
+        path: charts/crunchy-monitoring
+        targetRevision: HEAD
+        helm:
+          valueFiles:
+            - ../../deploy/crunchy-monitoring/values.yaml
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: pgo
+      syncPolicy:
+        managedNamespaceMetadata:
+          labels:
+            name: crunchy-monitoring
+            app.kubernetes.io/name: crunchy-monitoring
+            app.kubernetes.io/instance: crunchy-monitoring
+            app.kubernetes.io/project: pgo
+        syncOptions:
+          - CreateNamespace=true
