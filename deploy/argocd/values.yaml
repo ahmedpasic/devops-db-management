@@ -154,3 +154,30 @@ extraObjects:
             app.kubernetes.io/project: pgo
         syncOptions:
           - CreateNamespace=true
+
+  - apiVersion: argoproj.io/v1alpha1
+    kind: Application
+    metadata:
+      name: postgres-pgo
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/ahmedpasic/devops-db-management'
+        path: charts/postgres-pgo
+        targetRevision: HEAD
+        helm:
+          valueFiles:
+            - ../../deploy/postgres-pgo/values.yaml
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: pgo
+      syncPolicy:
+        managedNamespaceMetadata:
+          labels:
+            name: postgres-pgo
+            app.kubernetes.io/name: postgres-pgo
+            app.kubernetes.io/instance: postgres-pgo
+            app.kubernetes.io/project: pgo
+        syncOptions:
+          - CreateNamespace=true
