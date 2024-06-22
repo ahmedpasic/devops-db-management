@@ -6,6 +6,5 @@ monitoring: true
 imageExporter: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-0.15.0-6
 
 
-spec:
-  users:
-    - name: postgres
+users:
+  - name: postgres
